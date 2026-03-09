@@ -32,13 +32,20 @@ const ProjectModal = ({
       fullScreen={fullScreen}
       fullWidth
       maxWidth="sm"
+      PaperProps={{
+        sx: {
+          borderRadius: fullScreen ? 0 : 3,
+          bgcolor: "background.paper",
+          backgroundImage: "none",
+        },
+      }}
     >
-      <DialogTitle>
+      <DialogTitle sx={{ fontWeight: "bold" }}>
         {isEditing
           ? translate("edit_project")
           : translate("create_new_project")}
       </DialogTitle>
-      <DialogContent>
+      <DialogContent sx={{ mt: 1 }}>
         <TextField
           autoFocus
           margin="dense"
@@ -53,6 +60,7 @@ const ProjectModal = ({
           onKeyDown={(e) => {
             if (e.key === "Enter") onSubmit();
           }}
+          sx={{ mb: 2, "& .MuiOutlinedInput-root": { borderRadius: 2 } }}
         />
 
         <TextField
@@ -65,13 +73,23 @@ const ProjectModal = ({
           variant="outlined"
           value={projectDescription}
           onChange={(e) => setProjectDescription(e.target.value)}
+          sx={{ "& .MuiOutlinedInput-root": { borderRadius: 2 } }}
         />
       </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose} color="primary">
+      <DialogActions sx={{ px: 3, pb: 3 }}>
+        <Button
+          onClick={onClose}
+          color="inherit"
+          sx={{ textTransform: "none", fontWeight: 600 }}
+        >
           {translate("cancel_button")}
         </Button>
-        <Button onClick={onSubmit} color="primary" variant="contained">
+        <Button
+          onClick={onSubmit}
+          color="primary"
+          variant="contained"
+          sx={{ textTransform: "none", fontWeight: 600, borderRadius: 2 }}
+        >
           {isEditing
             ? translate("save_changes_button")
             : translate("create_project_button")}

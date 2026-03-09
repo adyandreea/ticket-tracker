@@ -25,12 +25,14 @@ import {
 } from "@mui/icons-material";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useLanguage } from "../../i18n/LanguageContext";
+import { useThemeContext } from "../../theme/ThemeContext.js";
 
-const ProfileSidebar = ({ open, onClose, isDarkMode, toggleDarkMode }) => {
+const ProfileSidebar = ({ open, onClose }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const { isDarkMode, toggleDarkMode } = useThemeContext();
 
   const { currentLanguage, changeLanguage, translate, availableLanguages } =
     useLanguage();

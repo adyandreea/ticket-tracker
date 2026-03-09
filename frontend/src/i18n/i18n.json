@@ -56,7 +56,7 @@
         "create_board_button": { "ENG": "Create Board", "RO": "Creați un tablou", "FR": "Créer un tableau", "RU": "Создать доску"},
         "board_name_label": {"ENG": "Board Name", "RO": "Numele tabloului", "FR": "Nom du tableau", "RU": "Название доски" },
         "board_description_label": {"ENG": "Description", "RO": "Descriere", "FR": "Description", "RU": "Описание" },
-        "board_project_label": {"ENG": "Project:", "RO": "Proiect:", "FR": "Projet:", "RU": "Проект:" },
+        "board_project_label": {"ENG": "Project", "RO": "Proiect", "FR": "Projet", "RU": "Проект" },
         "create_new_board": {"ENG": "Create New Board", "RO": "Creați un tablou nou", "FR": "Créer un nouveau tableau", "RU": "Создать новую доску" },
         "edit_board": {"ENG": "Edit Board", "RO": "Editați tabloul", "FR": "Modifier le tableau", "RU": "Редактировать доску" },
         "board_name_required": { "ENG": "Board name is required", "RO": "Numele tabloului este obligatoriu", "FR": "Le nom du tableau est requis", "RU": "Название доски обязательно"},
@@ -145,6 +145,7 @@
         "ticket_description_too_long": { "ENG": "Ticket description cannot exceed 255 characters", "RO": "Descrierea tichetului nu poate depăși 255 de caractere", "FR": "La description du ticket ne peut pas dépasser 255 caractères", "RU": "Описание тикета не может превышать 255 символов" },
         "ticket_title_length_invalid": { "ENG": "Ticket title cannot exceed 50 characters", "RO": "Titlul tichetului nu poate depăși 50 de caractere", "FR": "Le titre du ticket ne peut pas dépasser 50 caractères", "RU": "Название тикета не может превышать 50 символов" },
         "unassigned_label": { "ENG": "Unassigned", "RO": "Neasignat", "FR": "Non assigné", "RU": "Не назначен" },
-        "story_points_label": { "ENG": "Story Points", "RO": "Puncte de poveste", "FR": "Points d'histoire", "RU": "Очки истории" }
+        "story_points_label": { "ENG": "Story Points", "RO": "Puncte de poveste", "FR": "Points d'histoire", "RU": "Очки истории" },
+        "edit_user": {"ENG": "Edit User", "RO": "Editează utilizator", "FR": "Modifier l'utilisateur", "RU": "Редактировать пользователя"}
     }
 }

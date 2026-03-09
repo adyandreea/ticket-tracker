@@ -44,15 +44,15 @@ const ProjectCard = ({
       key={project.id}
       sx={{
         borderRadius: 3,
-        boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
-        bgcolor: "white",
+        boxShadow: (theme) => theme.shadows[3],
+        bgcolor: "background.paper",
         display: "flex",
         flexDirection: "column",
         height: "100%",
         transition: "all 0.3s ease",
         "&:hover": {
           transform: "translateY(-4px)",
-          boxShadow: "0 12px 36px rgba(0,0,0,0.18)",
+          boxShadow: (theme) => theme.shadows[8],
         },
       }}
     >
@@ -91,7 +91,8 @@ const ProjectCard = ({
           sx={{
             justifyContent: "flex-end",
             p: 1,
-            borderTop: "1px solid #f0f0f0",
+            borderTop: 1,
+            borderColor: "divider",
           }}
         >
           <IconButton

@@ -155,7 +155,7 @@ const EditUserPage = () => {
         display: "flex",
         flexDirection: "column",
         minHeight: "100vh",
-        bgcolor: "#f5f7fa",
+        bgcolor: "background.default",
       }}
     >
       <Sidebar open={isSidebarOpen} onClose={() => setSidebarOpen(false)} />
@@ -186,6 +186,7 @@ const EditUserPage = () => {
             sx={{
               fontWeight: 800,
               fontSize: { xs: "1.5rem", sm: "2.125rem" },
+              color: "text.primary",
             }}
           >
             {translate("user_administration_title")}
@@ -202,10 +203,19 @@ const EditUserPage = () => {
             maxHeight: "70vh",
             transition: "all 0.3s ease",
             "&:hover": { boxShadow: "0 20px 60px rgba(0,0,0,0.15)" },
-            "&::-webkit-scrollbar": { height: "6px" },
+            "&::-webkit-scrollbar": {
+              width: "6px",
+            },
+            "&::-webkit-scrollbar-track": {
+              backgroundColor: "transparent",
+            },
             "&::-webkit-scrollbar-thumb": {
-              backgroundColor: "#ccc",
+              backgroundColor: "divider",
               borderRadius: "10px",
+              transition: "background-color 0.2s ease",
+              "&:hover": {
+                backgroundColor: "text.disabled",
+              },
             },
           }}
         >
@@ -219,31 +229,31 @@ const EditUserPage = () => {
               stickyHeader
               aria-label="sticky table"
             >
-              <TableHead sx={{ bgcolor: "#f3f4f6" }}>
+              <TableHead sx={{ bgcolor: "action.hover" }}>
                 <TableRow>
-                  <TableCell sx={{ fontWeight: 700, color: "#111827" }}>
+                  <TableCell sx={{ fontWeight: 700, color: "text.primary" }}>
                     {translate("firstname_label")}
                   </TableCell>
-                  <TableCell sx={{ fontWeight: 700, color: "#111827" }}>
+                  <TableCell sx={{ fontWeight: 700, color: "text.primary" }}>
                     {translate("lastname_label")}
                   </TableCell>
-                  <TableCell sx={{ fontWeight: 700, color: "#111827" }}>
+                  <TableCell sx={{ fontWeight: 700, color: "text.primary" }}>
                     {translate("username_label")}
                   </TableCell>
-                  <TableCell sx={{ fontWeight: 700, color: "#111827" }}>
+                  <TableCell sx={{ fontWeight: 700, color: "text.primary" }}>
                     {translate("email_label")}
                   </TableCell>
-                  <TableCell sx={{ fontWeight: 700, color: "#111827" }}>
+                  <TableCell sx={{ fontWeight: 700, color: "text.primary" }}>
                     {translate("user_role_label")}
                   </TableCell>
                   <TableCell
-                    sx={{ fontWeight: 700, color: "#111827" }}
+                    sx={{ fontWeight: 700, color: "text.primary" }}
                     align="center"
                   >
                     {translate("edit_title_user")}
                   </TableCell>
                   <TableCell
-                    sx={{ fontWeight: 700, color: "#111827" }}
+                    sx={{ fontWeight: 700, color: "text.primary" }}
                     align="center"
                   >
                     {translate("delete_title_user")}
@@ -291,15 +301,29 @@ const EditUserPage = () => {
         fullWidth
         maxWidth="sm"
         PaperProps={{
-          sx: { borderRadius: { xs: "0", sm: "20px" }, m: { xs: 0, sm: 2 } },
+          sx: {
+            borderRadius: { xs: "0", sm: "20px" },
+            m: { xs: 0, sm: 2 },
+            bgcolor: "background.paper",
+            backgroundImage: "none",
+          },
         }}
+        sx={{ mb: 2, "& .MuiOutlinedInput-root": { borderRadius: 2 } }}
       >
-        <DialogTitle sx={{ fontWeight: 700 }}>Edit User</DialogTitle>
+        <DialogTitle sx={{ fontWeight: "bold" }}>
+          {translate("edit_user")}
+        </DialogTitle>
         <DialogContent sx={{ pt: 2 }}>
           {selectedUser && (
             <Box
               component="form"
-              sx={{ display: "flex", flexDirection: "column", gap: 2, mt: 1 }}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 2,
+                mt: 1,
+                "& .MuiOutlinedInput-root": { borderRadius: 2 },
+              }}
             >
               <TextField
                 label={translate("firstname_label")}
@@ -314,6 +338,7 @@ const EditUserPage = () => {
                 error={!!errors.firstname}
                 helperText={errors.firstname}
                 fullWidth
+                sx={{ "& .MuiOutlinedInput-root": { borderRadius: 2 } }}
               />
               <TextField
                 label={translate("lastname_label")}
@@ -328,6 +353,7 @@ const EditUserPage = () => {
                 error={!!errors.lastname}
                 helperText={errors.lastname}
                 fullWidth
+                sx={{ "& .MuiOutlinedInput-root": { borderRadius: 2 } }}
               />
               <TextField
                 label={translate("username_label")}
@@ -342,6 +368,7 @@ const EditUserPage = () => {
                 error={!!errors.username}
                 helperText={errors.username}
                 fullWidth
+                sx={{ "& .MuiOutlinedInput-root": { borderRadius: 2 } }}
               />
               <TextField
                 label={translate("email_label")}
@@ -353,6 +380,7 @@ const EditUserPage = () => {
                 error={!!errors.email}
                 helperText={errors.email}
                 fullWidth
+                sx={{ "& .MuiOutlinedInput-root": { borderRadius: 2 } }}
               />
               <FormControl fullWidth>
                 <InputLabel>{translate("user_role_label")}</InputLabel>
@@ -362,6 +390,7 @@ const EditUserPage = () => {
                   onChange={(e) =>
                     setSelectedUser({ ...selectedUser, role: e.target.value })
                   }
+                  sx={{ borderRadius: 2 }}
                 >
                   <MenuItem value="USER">USER</MenuItem>
                   <MenuItem value="MANAGER">MANAGER</MenuItem>
@@ -371,14 +400,19 @@ const EditUserPage = () => {
             </Box>
           )}
         </DialogContent>
-        <DialogActions sx={{ p: 3 }}>
-          <Button onClick={handleCloseEdit} color="inherit">
+        <DialogActions sx={{ px: 3, pb: 3 }}>
+          <Button
+            onClick={handleCloseEdit}
+            color="inherit"
+            sx={{ textTransform: "none", fontWeight: 600 }}
+          >
             {translate("cancel_button")}
           </Button>
           <Button
             onClick={handleSaveEdit}
             variant="contained"
-            sx={{ borderRadius: "10px" }}
+            color="primary"
+            sx={{ textTransform: "none", fontWeight: 600, borderRadius: 2 }}
           >
             {translate("save_changes_button")}
           </Button>

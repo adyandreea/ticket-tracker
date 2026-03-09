@@ -113,7 +113,7 @@ const ProfilePage = () => {
         display: "flex",
         flexDirection: "column",
         minHeight: "100vh",
-        bgcolor: "#f5f7fa",
+        bgcolor: "background.default",
       }}
     >
       <Sidebar open={isSidebarOpen} onClose={() => setSidebarOpen(false)} />
@@ -134,7 +134,8 @@ const ProfilePage = () => {
             p: 4,
             borderRadius: 3,
             textAlign: "center",
-            boxShadow: "0 4px 12px rgba(0,0,0,0.05)",
+            boxShadow: (theme) => theme.shadows[3],
+            bgcolor: "background.paper",
           }}
         >
           <Box sx={{ position: "relative", display: "inline-block", mb: 3 }}>
@@ -153,6 +154,7 @@ const ProfilePage = () => {
                 fontSize: "3rem",
                 bgcolor: "primary.main",
                 mx: "auto",
+                color: "primary.contrastText",
               }}
             >
               {!userData?.profilePicture &&
@@ -164,9 +166,9 @@ const ProfilePage = () => {
                 position: "absolute",
                 bottom: 0,
                 right: 0,
-                bgcolor: "white",
+                bgcolor: "background.paper",
                 boxShadow: 2,
-                "&:hover": { bgcolor: "#f5f5f5" },
+                "&:hover": { bgcolor: "action.hover" },
               }}
               onClick={() => fileInputRef.current.click()}
             >
@@ -180,9 +182,9 @@ const ProfilePage = () => {
                   position: "absolute",
                   bottom: 0,
                   left: 0,
-                  bgcolor: "white",
+                  bgcolor: "background.paper",
                   boxShadow: 2,
-                  "&:hover": { bgcolor: "#fff5f5" },
+                  "&:hover": { bgcolor: "action.hover" },
                 }}
                 onClick={() => setShowConfirmationDialog(true)}
               >
@@ -191,7 +193,7 @@ const ProfilePage = () => {
             )}
           </Box>
 
-          <Typography variant="h5" fontWeight="700">
+          <Typography variant="h5" fontWeight="700" color="text.primary">
             {userData?.firstname} {userData?.lastname}
           </Typography>
           <Typography color="textSecondary" gutterBottom>
@@ -256,10 +258,14 @@ const InfoRow = ({ icon, label, value, bold }) => (
   <Box sx={{ display: "flex", alignItems: "center", textAlign: "left" }}>
     <Box sx={{ mr: 2 }}>{icon}</Box>
     <Box>
-      <Typography variant="caption" color="textSecondary" display="block">
+      <Typography variant="caption" color="text.secondary" display="block">
         {label}
       </Typography>
-      <Typography variant="body1" fontWeight={bold ? 700 : 400}>
+      <Typography
+        variant="body1"
+        fontWeight={bold ? 700 : 400}
+        color="text.primary"
+      >
         {value || "—"}
       </Typography>
     </Box>

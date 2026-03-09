@@ -62,11 +62,13 @@ const ProjectsPage = () => {
 
   const handleCloseModal = () => {
     setModalOpen(false);
-    setIsEditing(false);
-    setEditingProject(null);
-    setNewProjectName("");
-    setNewProjectDescription("");
-    setErrors({ name: "" });
+    setTimeout(() => {
+      setIsEditing(false);
+      setEditingProject(null);
+      setNewProjectName("");
+      setNewProjectDescription("");
+      setErrors({ name: "" });
+    }, 300);
   };
 
   const handleCreate = async () => {
@@ -166,7 +168,7 @@ const ProjectsPage = () => {
       sx={{
         display: "flex",
         minHeight: "100vh",
-        backgroundColor: "#f5f7fa",
+        backgroundColor: "background.default",
       }}
     >
       <Sidebar open={isSidebarOpen} onClose={() => setSidebarOpen(false)} />
@@ -215,7 +217,7 @@ const ProjectsPage = () => {
               variant="h4"
               sx={{
                 fontWeight: 800,
-                color: "#1a2027",
+                color: "#text.primary",
                 fontSize: { xs: "1.8rem", sm: "2.4rem" },
                 letterSpacing: "-0.5px",
               }}

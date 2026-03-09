@@ -11,7 +11,9 @@ import {
   Container,
   MenuItem,
   Divider,
+  useTheme,
 } from "@mui/material";
+import { alpha } from "@mui/material/styles";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { getTicketById, updateTicket, deleteTicket } from "../../api/ticketApi";
 import { useLanguage } from "../../i18n/LanguageContext";
@@ -28,6 +30,7 @@ const TicketPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { translate } = useLanguage();
+  const theme = useTheme();
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [isProfileSidebarOpen, setProfileSidebarOpen] = useState(false);
   const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
@@ -142,13 +145,29 @@ const TicketPage = () => {
   const getStatusStyle = (status) => {
     switch (status) {
       case "DONE":
-        return { bg: "#e8f5e9", text: "#2e7d32", border: "#c8e6c9" };
+        return {
+          bg: alpha(theme.palette.success.main, 0.1),
+          text: theme.palette.success.main,
+          border: alpha(theme.palette.success.main, 0.3),
+        };
       case "TODO":
-        return { bg: "#e3f2fd", text: "#1565c0", border: "#bbdefb" };
+        return {
+          bg: alpha(theme.palette.info.main, 0.1),
+          text: theme.palette.info.main,
+          border: alpha(theme.palette.info.main, 0.3),
+        };
       case "IN_PROGRESS":
-        return { bg: "#fff3e0", text: "#ed6c02", border: "#ffe0b2" };
+        return {
+          bg: alpha(theme.palette.warning.main, 0.1),
+          text: theme.palette.warning.main,
+          border: alpha(theme.palette.warning.main, 0.3),
+        };
       default:
-        return { bg: "#f3f4f6", text: "#4b5563", border: "#d1d5db" };
+        return {
+          bg: theme.palette.action.hover,
+          text: theme.palette.text.secondary,
+          border: theme.palette.divider,
+        };
     }
   };
 
@@ -169,7 +188,7 @@ const TicketPage = () => {
         width: "100%",
         mx: "auto",
         minWidth: 0,
-        bgcolor: "#f4f5f7",
+        bgcolor: "background.default",
         minHeight: "100vh",
       }}
     >
@@ -184,9 +203,10 @@ const TicketPage = () => {
         component="main"
         sx={{
           flexGrow: 1,
-          width: { xs: "100%", md: "calc(100% - 240px)" },
+          width: "100%",
           display: "flex",
           flexDirection: "column",
+          alignItems: "center",
           minWidth: 0,
           px: { xs: 2, md: 6 },
         }}
@@ -197,7 +217,14 @@ const TicketPage = () => {
         />
 
         <Box
-          sx={{ mt: 4, mb: 3, display: "flex", justifyContent: "flex-start" }}
+          sx={{
+            mt: 6,
+            mb: 2,
+            display: "flex",
+            justifyContent: "flex-start",
+            width: "100%",
+            maxWidth: "lg",
+          }}
         >
           <Button
             startIcon={<ArrowBackIcon />}
@@ -211,7 +238,7 @@ const TicketPage = () => {
               color: "text.secondary",
               bgcolor: "transparent",
               "&:hover": {
-                bgcolor: "rgba(0,0,0,0.04)",
+                bgcolor: "action.hover",
                 color: "text.primary",
               },
             }}
@@ -226,9 +253,9 @@ const TicketPage = () => {
             sx={{
               p: { xs: 3, md: 6 },
               borderRadius: "20px",
-              bgcolor: "#ffffff",
-              border: "1px solid #e2e8f0",
-              boxShadow: "0 4px 24px rgba(0,0,0,0.04)",
+              bgcolor: "background.paper",
+              border: 1,
+              boxShadow: (theme) => theme.shadows[2],
             }}
           >
             <Stack
@@ -291,9 +318,9 @@ const TicketPage = () => {
                     fontSize: { xs: "1.8rem", md: "2.4rem" },
                     fontWeight: 800,
                     lineHeight: 1.2,
-                    color: "#1a202c",
+                    color: "text.primary",
                     "& fieldset": { border: "none" },
-                    "&:hover fieldset": { border: "1px solid #e2e8f0" },
+                    "&:hover fieldset": { border: 1, borderColor: "divider" },
                     "&.Mui-focused fieldset": {
                       border: "2px solid",
                       borderColor: "primary.main",
@@ -332,14 +359,15 @@ const TicketPage = () => {
                         mt: 1.5,
                         px: 2,
                         py: 1,
-                        bgcolor: "#f8fafc",
+                        bgcolor: "action.hover",
                         borderRadius: "10px",
-                        border: "1px solid #e2e8f0",
+                        border: 1,
+                        borderColor: "divider",
                       }}
                     >
                       <Typography
                         variant="body2"
-                        sx={{ fontWeight: 600, color: "#475569" }}
+                        sx={{ fontWeight: 600, color: "text.primary" }}
                       >
                         {assignedUserName}
                       </Typography>
@@ -354,11 +382,14 @@ const TicketPage = () => {
                     onChange={(e) =>
                       setTicket({ ...ticket, assignedUserId: e.target.value })
                     }
+                    SelectProps={{
+                      displayEmpty: true,
+                    }}
                     sx={{
                       mt: 1,
                       "& .MuiOutlinedInput-root": {
                         borderRadius: "10px",
-                        bgcolor: "#f8fafc",
+                        bgcolor: "action.hover",
                       },
                     }}
                   >
@@ -394,14 +425,15 @@ const TicketPage = () => {
                         mt: 1.5,
                         px: 2,
                         py: 1,
-                        bgcolor: "#f8fafc",
+                        bgcolor: "action.hover",
                         borderRadius: "10px",
-                        border: "1px solid #e2e8f0",
+                        border: 1,
+                        borderColor: "divider",
                       }}
                     >
                       <Typography
                         variant="body2"
-                        sx={{ fontWeight: 600, color: "#475569" }}
+                        sx={{ fontWeight: 600, color: "text.primary" }}
                       >
                         {ticket.storyPoints || "-"}
                       </Typography>
@@ -409,7 +441,7 @@ const TicketPage = () => {
                   }
                 >
                   <TextField
-                    type="number"
+                    type="text"
                     fullWidth
                     size="small"
                     InputProps={{ inputProps: { min: 0 } }}
@@ -422,7 +454,7 @@ const TicketPage = () => {
                       mt: 1,
                       "& .MuiOutlinedInput-root": {
                         borderRadius: "10px",
-                        bgcolor: "#f8fafc",
+                        bgcolor: "action.hover",
                       },
                     }}
                   />
@@ -446,14 +478,15 @@ const TicketPage = () => {
                     mt: 1.5,
                     px: 2,
                     py: 1,
-                    bgcolor: "#f8fafc",
+                    bgcolor: "action.hover",
                     borderRadius: "10px",
-                    border: "1px solid #e2e8f0",
+                    border: 1,
+                    borderColor: "divider",
                   }}
                 >
                   <Typography
                     variant="body2"
-                    sx={{ fontWeight: 600, color: "#475569" }}
+                    sx={{ fontWeight: 600, color: "text.primary" }}
                   >
                     {ticket.boardId || "-"}
                   </Typography>
@@ -488,12 +521,12 @@ const TicketPage = () => {
                 sx={{
                   mt: 1,
                   "& .MuiOutlinedInput-root": {
-                    bgcolor: "#f8fafc",
+                    bgcolor: "action.hover",
                     borderRadius: "12px",
                     fontSize: "1.05rem",
                     lineHeight: 1.6,
                     "& fieldset": { borderColor: "transparent" },
-                    "&:hover fieldset": { borderColor: "#cbd5e1" },
+                    "&:hover fieldset": { borderColor: "divider" },
                     "&.Mui-focused fieldset": {
                       borderColor: "primary.main",
                       borderWidth: "2px",
@@ -519,8 +552,10 @@ const TicketPage = () => {
                     py: 1.2,
                     borderRadius: "10px",
                     fontSize: "0.95rem",
-                    fontWeight: 600,
-                    "&:hover": { bgcolor: "#fef2f2" },
+                    fontWeight: 700,
+                    "&:hover": {
+                      bgcolor: (t) => alpha(t.palette.error.main, 0.1),
+                    },
                   }}
                 >
                   {translate("delete_button")}
@@ -535,9 +570,9 @@ const TicketPage = () => {
                   py: 1.2,
                   borderRadius: "10px",
                   fontSize: "0.95rem",
-                  fontWeight: 600,
+                  fontWeight: 700,
                   boxShadow: "none",
-                  "&:hover": { boxShadow: "0 4px 12px rgba(0,0,0,0.15)" },
+                  "&:hover": { boxShadow: (t) => t.shadows[4] },
                 }}
               >
                 {translate("save_changes_button")}

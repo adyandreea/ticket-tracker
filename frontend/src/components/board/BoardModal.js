@@ -38,11 +38,18 @@ const BoardModal = ({
       fullScreen={fullScreen}
       fullWidth
       maxWidth="sm"
+      PaperProps={{
+        sx: {
+          borderRadius: fullScreen ? 0 : 3,
+          bgcolor: "background.paper",
+          backgroundImage: "none",
+        },
+      }}
     >
-      <DialogTitle>
+      <DialogTitle sx={{ fontWeight: "bold" }}>
         {isEditing ? translate("edit_board") : translate("create_new_board")}
       </DialogTitle>
-      <DialogContent>
+      <DialogContent sx={{ mt: 1 }}>
         <TextField
           autoFocus
           margin="dense"
@@ -54,7 +61,7 @@ const BoardModal = ({
           onChange={(e) => setBoardName(e.target.value)}
           error={errors.name !== ""}
           helperText={errors.name}
-          sx={{ mb: 2 }}
+          sx={{ mb: 2, "& .MuiOutlinedInput-root": { borderRadius: 2 } }}
         />
 
         <TextField
@@ -67,16 +74,19 @@ const BoardModal = ({
           variant="outlined"
           value={boardDescription}
           onChange={(e) => setBoardDescription(e.target.value)}
-          sx={{ mb: 2 }}
+          sx={{ "& .MuiOutlinedInput-root": { borderRadius: 2 } }}
         />
         <FormControl fullWidth margin="dense">
-          <InputLabel id="project-select-label">Project</InputLabel>
+          <InputLabel id="project-select-label">
+            {translate("board_project_label")}
+          </InputLabel>
           <Select
             labelId="project-select-label"
             value={selectedProjectId}
             label={translate("board_project_label")}
             error={errors.projectId !== ""}
             onChange={(e) => setSelectedProjectId(e.target.value)}
+            sx={{ borderRadius: 2 }}
           >
             {projectsData.map((project) => (
               <MenuItem key={project.id} value={project.id}>
@@ -86,11 +96,20 @@ const BoardModal = ({
           </Select>
         </FormControl>
       </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose} color="primary">
+      <DialogActions sx={{ px: 3, pb: 3 }}>
+        <Button
+          onClick={onClose}
+          color="inherit"
+          sx={{ textTransform: "none", fontWeight: 600 }}
+        >
           {translate("cancel_button")}
         </Button>
-        <Button onClick={onSubmit} color="primary" variant="contained">
+        <Button
+          onClick={onSubmit}
+          color="primary"
+          variant="contained"
+          sx={{ textTransform: "none", fontWeight: 600, borderRadius: 2 }}
+        >
           {isEditing
             ? translate("save_changes_button")
             : translate("create_board_button")}

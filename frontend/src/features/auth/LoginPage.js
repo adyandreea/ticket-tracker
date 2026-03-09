@@ -76,7 +76,7 @@ const LoginPage = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "#f5f5f5",
+        backgroundColor: "background.default",
         padding: 2,
       }}
     >
@@ -89,6 +89,7 @@ const LoginPage = () => {
             flexDirection: "column",
             alignItems: "center",
             borderRadius: 2,
+            bgcolor: "background.paper",
           }}
         >
           <Avatar
@@ -99,7 +100,7 @@ const LoginPage = () => {
           >
             <LockOutlinedIcon />
           </Avatar>
-          <Typography component="h1" variant="h5">
+          <Typography component="h1" variant="h5" color="text.primary">
             {translate("sign_in_login")}
           </Typography>
           {serverError && (

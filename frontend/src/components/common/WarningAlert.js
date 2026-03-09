@@ -24,9 +24,9 @@ const WarningAlert = ({
         sx={{
           maxWidth: maxWidth,
           width: "100%",
-          bgcolor: "white",
+          bgcolor: "background.paper",
           borderRadius: 4,
-          boxShadow: "0 10px 30px rgba(0,0,0,0.08)",
+          boxShadow: (theme) => theme.shadows[4],
           p: 4,
           display: "flex",
           flexDirection: "column",
@@ -51,7 +51,7 @@ const WarningAlert = ({
             fontWeight: "bold",
             fontSize: "1.3rem",
             mb: 1.5,
-            color: `${severity}.dark`,
+            color: `${severity}.main`,
           }}
         >
           {title}

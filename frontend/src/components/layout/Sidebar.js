@@ -78,7 +78,7 @@ const Sidebar = ({ open, onClose }) => {
       backgroundColor: isActive ? "rgba(25, 118, 210, 0.08)" : "transparent",
       color: isActive ? theme.palette.primary.main : "text.primary",
       "&:hover": {
-        backgroundColor: "rgba(0, 0, 0, 0.04)",
+        backgroundColor: "action.hover",
         transform: "translateX(5px)",
       },
       transition: "all 0.2s ease",
@@ -97,7 +97,7 @@ const Sidebar = ({ open, onClose }) => {
           top: isMobile ? 0 : "7.5vh",
           left: isMobile ? 0 : "20px",
           borderRadius: isMobile ? 0 : "24px",
-          bgcolor: "#ffffff",
+          bgcolor: "background.paper",
           boxShadow: "0 10px 30px rgba(0,0,0,0.1)",
           border: "none",
           overflowX: "hidden",

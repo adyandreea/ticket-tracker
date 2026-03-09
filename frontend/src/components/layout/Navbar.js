@@ -18,11 +18,13 @@ const Navbar = ({ onMenuClick, onProfileClick }) => {
       position="fixed"
       elevation={0}
       sx={{
-        bgcolor: "secondary",
+        bgcolor: "primary.main",
+        color: "primary.contrastText",
         backdropFilter: "blur(10px)",
         width: "100%",
-        borderBottom: "1px solid rgba(0, 0, 0, 0.08)",
-        boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
+        borderBottom: "1",
+        borderColor: "divider",
+        boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
         zIndex: (theme) => theme.zIndex.drawer - 1,
       }}
     >
@@ -40,10 +42,10 @@ const Navbar = ({ onMenuClick, onProfileClick }) => {
           onClick={onMenuClick}
           sx={{
             mr: 1,
-            "&:hover": { bgcolor: "rgba(0,0,0,0.04)" },
+            "&:hover": { bgcolor: "rgba(255, 255, 255, 0.1)" },
           }}
         >
-          <MenuIcon sx={{ color: "white" }} />
+          <MenuIcon />
         </IconButton>
 
         <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
@@ -54,7 +56,10 @@ const Navbar = ({ onMenuClick, onProfileClick }) => {
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <SearchIcon fontSize="small" sx={{ color: "gray" }} />
+                  <SearchIcon
+                    fontSize="small"
+                    sx={{ color: "text.secondary" }}
+                  />
                 </InputAdornment>
               ),
             }}
@@ -62,24 +67,25 @@ const Navbar = ({ onMenuClick, onProfileClick }) => {
               width: { xs: "100%", sm: "80%", md: 500 },
               maxWidth: "700px",
               "& .MuiOutlinedInput-root": {
-                bgcolor: "#f5f7fa",
+                bgcolor: "background.paper",
                 borderRadius: "12px",
                 transition: "all 0.3s ease",
                 "& fieldset": {
                   borderColor: "transparent",
                 },
                 "&:hover": {
-                  bgcolor: "#eeeeee",
+                  bgcolor: "background.paper",
+                  opacity: 0.9,
                 },
                 "&:hover fieldset": {
                   borderColor: "transparent",
                 },
                 "&.Mui-focused": {
-                  bgcolor: "#fff",
-                  boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
+                  bgcolor: "background.paper",
+                  boxShadow: "0 4px 20px rgba(0,0,0,0.15)",
                   "& fieldset": {
-                    borderColor: "primary.main",
-                    borderWidth: "1px",
+                    borderColor: "primary.light",
+                    borderWidth: "2px",
                   },
                 },
               },
@@ -94,10 +100,10 @@ const Navbar = ({ onMenuClick, onProfileClick }) => {
             onClick={onProfileClick}
             sx={{
               mr: 1,
-              "&:hover": { bgcolor: "rgba(0,0,0,0.04)" },
+              "&:hover": { bgcolor: "rgba(255, 255, 255, 0.1)" },
             }}
           >
-            <AccountCircleIcon sx={{ fontSize: 32, color: "white" }} />
+            <AccountCircleIcon sx={{ fontSize: 32 }} />
           </IconButton>
         </Box>
       </Toolbar>

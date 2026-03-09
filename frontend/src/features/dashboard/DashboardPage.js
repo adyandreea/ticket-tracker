@@ -110,7 +110,7 @@ const DashboardPage = () => {
       sx={{
         display: "flex",
         minHeight: "100vh",
-        backgroundColor: "#f5f7fa",
+        backgroundColor: "background.default",
       }}
     >
       <Sidebar open={isSidebarOpen} onClose={() => setSidebarOpen(false)} />
@@ -153,7 +153,7 @@ const DashboardPage = () => {
                 size="small"
                 sx={{
                   minWidth: { xs: "100%", sm: 250 },
-                  bgcolor: "white",
+                  bgcolor: "background.paper",
                   borderRadius: 2,
                   "& .MuiOutlinedInput-root": {
                     borderRadius: 2,
@@ -219,11 +219,11 @@ const DashboardPage = () => {
                   textTransform: "none",
                   color: "primary.main",
                   borderColor: "primary.main",
-                  bgcolor: "white",
+                  bgcolor: "background.paper",
 
                   "&:hover": {
                     bgcolor: "primary.main",
-                    color: "white",
+                    color: "primary.contrastText",
                   },
                 }}
               >

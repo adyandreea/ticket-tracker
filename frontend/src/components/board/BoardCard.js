@@ -36,15 +36,15 @@ const BoardCard = ({ boards, board, setBoards, handleEditStart, onNotify }) => {
       key={board.id}
       sx={{
         borderRadius: 3,
-        boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
-        bgcolor: "white",
+        boxShadow: (theme) => theme.shadows[3],
+        bgcolor: "background.paper",
         display: "flex",
         flexDirection: "column",
         height: "100%",
         transition: "all 0.3s ease",
         "&:hover": {
           transform: "translateY(-4px)",
-          boxShadow: "0 12px 36px rgba(0,0,0,0.18)",
+          boxShadow: (theme) => theme.shadows[8],
         },
       }}
     >
@@ -69,7 +69,7 @@ const BoardCard = ({ boards, board, setBoards, handleEditStart, onNotify }) => {
           color="text.secondary"
           sx={{ display: "block", mt: 1 }}
         >
-          {translate("board_project_label")} {board.project}
+          {translate("board_project_label")}: {board.project}
         </Typography>
         <Typography
           variant="body2"
@@ -90,7 +90,8 @@ const BoardCard = ({ boards, board, setBoards, handleEditStart, onNotify }) => {
           sx={{
             justifyContent: "flex-end",
             p: 1,
-            borderTop: "1px solid #f0f0f0",
+            borderTop: 1,
+            borderColor: "divider",
           }}
         >
           <IconButton

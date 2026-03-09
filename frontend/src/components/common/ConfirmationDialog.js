@@ -5,6 +5,8 @@ import {
   DialogContentText,
   DialogActions,
   Button,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 
 const ConfirmationDialog = ({
@@ -17,25 +19,42 @@ const ConfirmationDialog = ({
   buttonOneHandle,
   buttonTwoHandle,
 }) => {
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="xs">
+    <Dialog
+      open={open}
+      onClose={onClose}
+      fullWidth
+      maxWidth="xs"
+      fullScreen={fullScreen}
+      PaperProps={{
+        sx: {
+          borderRadius: fullScreen ? 0 : 3,
+          bgcolor: "background.paper",
+          backgroundImage: "none",
+        },
+      }}
+    >
       <DialogTitle
         sx={{ fontWeight: "bold", textAlign: { xs: "center", sm: "left" } }}
       >
         {title}
       </DialogTitle>
-      <DialogContent>
-        <DialogContentText sx={{ textAlign: { xs: "center", sm: "left" } }}>
+      <DialogContent sx={{ mt: 1 }}>
+        <DialogContentText
+          sx={{ textAlign: { xs: "center", sm: "left" }, borderRadius: 2 }}
+        >
           {description}
         </DialogContentText>
       </DialogContent>
       <DialogActions
-        sx={{ px: 3, pb: 2, justifyContent: { xs: "center", sm: "flex-end" } }}
+        sx={{ px: 3, pb: 3, justifyContent: { xs: "center", sm: "flex-end" } }}
       >
         <Button
           onClick={buttonOneHandle}
-          color="primary"
-          sx={{ minWidth: 100 }}
+          color="inherit"
+          sx={{ textTransform: "none", fontWeight: 600 }}
         >
           {buttonOneText}
         </Button>
@@ -44,7 +63,7 @@ const ConfirmationDialog = ({
           variant="contained"
           color="error"
           autoFocus
-          sx={{ minWidth: 100 }}
+          sx={{ textTransform: "none", fontWeight: 600, borderRadius: 2 }}
         >
           {buttonTwoText}
         </Button>

@@ -106,7 +106,7 @@ const PermissionsPage = () => {
         display: "flex",
         flexDirection: "column",
         minHeight: "100vh",
-        bgcolor: "#f5f7fa",
+        bgcolor: "background.default",
       }}
     >
       <Sidebar open={isSidebarOpen} onClose={() => setSidebarOpen(false)} />
@@ -133,7 +133,7 @@ const PermissionsPage = () => {
           variant="h4"
           sx={{
             fontWeight: 800,
-            color: "#1a2027",
+            color: "text.primary",
             fontSize: { xs: "1.8rem", sm: "2.4rem" },
             letterSpacing: "-0.5px",
           }}
@@ -204,7 +204,7 @@ const PermissionsPage = () => {
           sx={{ boxShadow: 3, borderRadius: 2, overflowX: "auto" }}
         >
           <Table stickyHeader>
-            <TableHead>
+            <TableHead sx={{ bgcolor: "action.hover" }}>
               <TableRow>
                 <TableCell sx={{ fontWeight: "bold" }}>ID</TableCell>
                 <TableCell sx={{ fontWeight: "bold" }}>

@@ -1,7 +1,4 @@
-import {
-  Paper,
-  Typography
-} from "@mui/material";
+import { Paper, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 const TicketCard = ({ ticket }) => {
@@ -19,15 +16,21 @@ const TicketCard = ({ ticket }) => {
         mb: 1.5,
         borderRadius: 2,
         cursor: "pointer",
-        transition: "0.2s",
-        "&:hover": {
-          boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
-          transform: "translateY(-2px)",
-        },
+        transition: "all 0.2s ease",
+
+        bgcolor: "background.paper",
+        border: 1,
+        borderColor: "divider",
+
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        border: "1px solid #bebebe",
+
+        "&:hover": {
+          transform: "translateY(-2px)",
+          boxShadow: (theme) => theme.shadows[4],
+          borderColor: "primary.main",
+        },
       }}
     >
       <Typography variant="body2" sx={{ fontWeight: 500 }}>

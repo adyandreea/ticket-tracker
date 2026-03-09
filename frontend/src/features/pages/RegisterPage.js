@@ -108,7 +108,13 @@ const RegisterPage = () => {
   const handleProfileClick = () => setProfileSidebarOpen(!isProfileSidebarOpen);
 
   return (
-    <Box sx={{ display: "flex", minHeight: "100vh", bgcolor: "#f5f7fa" }}>
+    <Box
+      sx={{
+        display: "flex",
+        minHeight: "100vh",
+        bgcolor: "background.default",
+      }}
+    >
       <Sidebar open={isSidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       <ProfileSidebar

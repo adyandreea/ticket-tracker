@@ -235,9 +235,10 @@ const BoardCard = ({ selectedBoardId }) => {
             minWidth: { xs: "280px", sm: "300px", md: "1fr" },
             flex: { xs: "0 0 auto", md: 1 },
             borderRadius: 2,
-            backgroundColor: "#ffffff",
-            border: "1px solid #e5e7eb",
-            boxShadow: "0 12px 32px rgba(0,0,0,0.12)",
+            backgroundColor: "background.paper",
+            border: "1",
+            borderColor: "divider",
+            boxShadow: "0 12px 32px rgba(0,0,0,0.08)",
             transition: "box-shadow 0.2s ease, transform 0.2s ease",
             height: "100%",
             display: "flex",
@@ -250,7 +251,6 @@ const BoardCard = ({ selectedBoardId }) => {
           <Box
             sx={{
               p: 2,
-              borderColor: "#e5e7eb",
               borderTop: `4px solid ${columnConfig[col].color}`,
             }}
           >
@@ -265,7 +265,27 @@ const BoardCard = ({ selectedBoardId }) => {
             </Typography>
           </Box>
 
-          <Box sx={{ flexGrow: 1, overflowY: "auto", p: 2 }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              overflowY: "auto",
+              p: 2,
+              "&::-webkit-scrollbar": {
+                width: "6px",
+              },
+              "&::-webkit-scrollbar-track": {
+                backgroundColor: "transparent",
+              },
+              "&::-webkit-scrollbar-thumb": {
+                backgroundColor: "divider",
+                borderRadius: "10px",
+                transition: "background-color 0.2s ease",
+                "&:hover": {
+                  backgroundColor: "text.disabled",
+                },
+              },
+            }}
+          >
             {tickets[col].map((ticket) => (
               <Box
                 key={ticket.id}
@@ -285,7 +305,14 @@ const BoardCard = ({ selectedBoardId }) => {
             ))}
           </Box>
 
-          <Box sx={{ p: 2, borderTop: "1px solid #f0f0f0", bgcolor: "white" }}>
+          <Box
+            sx={{
+              p: 2,
+              borderTop: 1,
+              borderColor: "divider",
+              bgcolor: "transparent",
+            }}
+          >
             {isAdding[col] ? (
               <Box sx={{ display: "flex", gap: 1 }}>
                 <TextField
@@ -312,7 +339,14 @@ const BoardCard = ({ selectedBoardId }) => {
                 startIcon={<AddIcon />}
                 fullWidth
                 onClick={() => handleAddClick(col)}
-                sx={{ justifyContent: "flex-start", textTransform: "none" }}
+                sx={{
+                  justifyContent: "flex-start",
+                  textTransform: "none",
+                  color: "text.secondary",
+                  "&:hover": {
+                    bgcolor: "action.hover",
+                  },
+                }}
               >
                 {translate("add_card_dashboard")}
               </Button>
