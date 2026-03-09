@@ -25,13 +25,16 @@ public class ProjectService {
     private final UserRepository userRepository;
     private final UserDTOMapper userDTOMapper;
     private final ProjectSecurityEvaluator projectSecurity;
+    private final EmailService emailService;
+
 
     @Autowired
-    public ProjectService(ProjectRepository projectRepository, UserRepository userRepository, UserDTOMapper userDTOMapper, ProjectSecurityEvaluator projectSecurity) {
+    public ProjectService(ProjectRepository projectRepository, UserRepository userRepository, UserDTOMapper userDTOMapper, ProjectSecurityEvaluator projectSecurity, EmailService emailService) {
         this.projectRepository = projectRepository;
         this.userRepository = userRepository;
         this.userDTOMapper = userDTOMapper;
         this.projectSecurity = projectSecurity;
+        this.emailService = emailService;
     }
 
     public ProjectResponseDTO createProject(ProjectRequestDTO dto){
@@ -92,6 +95,17 @@ public class ProjectService {
 
         project.addUser(user);
         projectRepository.save(project);
+
+        String subject = "You have been added to a new project: " + project.getName();
+        String body = "Hello,\n\n" +
+                "You were assigned to the project \"" + project.getName() + "\".\n" +
+                "Enter the Kanban Board app to see the details and tasks.\n\n";
+
+        try {
+            emailService.sendSimpleEmail(user.getEmail(), subject, body);
+        } catch (Exception e) {
+            System.err.println("Error sending email to " + user.getEmail() + ": " + e.getMessage());
+        }
     }
 
     public List<UserResponseDTO> getProjectMembers(Long projectId){

@@ -11,6 +11,7 @@ import com.andreea.ticket_tracker.exceptions.TicketNotFoundException;
 import com.andreea.ticket_tracker.exceptions.UserNotFoundException;
 import com.andreea.ticket_tracker.exceptions.UserNotInProjectException;
 import com.andreea.ticket_tracker.mapper.TicketDTOMapper;
+import com.andreea.ticket_tracker.mapper.UserDTOMapper;
 import com.andreea.ticket_tracker.repository.BoardRepository;
 import com.andreea.ticket_tracker.repository.TicketRepository;
 import com.andreea.ticket_tracker.repository.UserRepository;
@@ -27,13 +28,15 @@ public class TicketService {
     private final BoardRepository boardRepository;
     private final ProjectSecurityEvaluator projectSecurity;
     private final UserRepository userRepository;
+    private final EmailService emailService;
 
     @Autowired
-    public TicketService(TicketRepository ticketRepository, BoardRepository boardRepository, ProjectSecurityEvaluator projectSecurity, UserRepository userRepository) {
+    public TicketService(TicketRepository ticketRepository, BoardRepository boardRepository, ProjectSecurityEvaluator projectSecurity, UserRepository userRepository, EmailService emailService) {
         this.ticketRepository = ticketRepository;
         this.boardRepository = boardRepository;
         this.projectSecurity = projectSecurity;
         this.userRepository = userRepository;
+        this.emailService = emailService;
     }
 
     public TicketResponseDTO createTicket(TicketRequestDTO dto){
@@ -122,6 +125,10 @@ public class TicketService {
 
     private void assignUserToTicketIfValid(Ticket ticket, Long assignedUserId, Project project) {
         if (assignedUserId != null) {
+
+            Long currentAssigneeId = ticket.getAssignedUser() != null ? ticket.getAssignedUser().getId() : null;
+            boolean isNewAssignment = !assignedUserId.equals(currentAssigneeId);
+
             User assignee = userRepository.findById(assignedUserId)
                     .orElseThrow(UserNotFoundException::new);
 
@@ -133,6 +140,20 @@ public class TicketService {
             }
 
             ticket.setAssignedUser(assignee);
+
+            if (isNewAssignment) {
+            String subject = "New ticket assigned: " + ticket.getTitle();
+            String body = "Hello,\n\n" +
+                    "You have been assigned to the ticket \"" + ticket.getTitle() + "\" " +
+                    "in the project \"" + project.getName() + "\".\n" +
+                    "Enter the Kanban Board app to see the details and tasks.\n\n";
+
+                try {
+                    emailService.sendSimpleEmail(assignee.getEmail(), subject, body);
+                } catch (Exception e) {
+                    System.err.println("Error sending email to " + assignee.getEmail() + ": " + e.getMessage());
+                }
+            }
         } else {
             ticket.setAssignedUser(null);
         }
