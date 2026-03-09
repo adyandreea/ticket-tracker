@@ -62,11 +62,13 @@ const ProjectsPage = () => {
 
   const handleCloseModal = () => {
     setModalOpen(false);
-    setIsEditing(false);
-    setEditingProject(null);
-    setNewProjectName("");
-    setNewProjectDescription("");
-    setErrors({ name: "" });
+    setTimeout(() => {
+      setIsEditing(false);
+      setEditingProject(null);
+      setNewProjectName("");
+      setNewProjectDescription("");
+      setErrors({ name: "" });
+    }, 300);
   };
 
   const handleCreate = async () => {

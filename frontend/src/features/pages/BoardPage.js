@@ -76,12 +76,15 @@ const BoardsPage = () => {
 
   const handleCloseModal = () => {
     setModalOpen(false);
-    setIsEditing(false);
-    setEditingBoard(null);
-    setBoardName("");
-    setBoardDescription("");
-    setSelectedProjectId("");
-    setErrors({ name: "", projectId: "" });
+
+    setTimeout(() => {
+      setIsEditing(false);
+      setEditingBoard(null);
+      setBoardName("");
+      setBoardDescription("");
+      setSelectedProjectId("");
+      setErrors({ name: "", projectId: "" });
+    }, 300);
   };
 
   const handleEditStart = (board) => {

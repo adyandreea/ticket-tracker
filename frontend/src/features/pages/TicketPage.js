@@ -203,9 +203,10 @@ const TicketPage = () => {
         component="main"
         sx={{
           flexGrow: 1,
-          width: { xs: "100%", md: "calc(100% - 240px)" },
+          width: "100%",
           display: "flex",
           flexDirection: "column",
+          alignItems: "center",
           minWidth: 0,
           px: { xs: 2, md: 6 },
         }}
@@ -216,7 +217,14 @@ const TicketPage = () => {
         />
 
         <Box
-          sx={{ mt: 4, mb: 3, display: "flex", justifyContent: "flex-start" }}
+          sx={{
+            mt: 6,
+            mb: 2,
+            display: "flex",
+            justifyContent: "flex-start",
+            width: "100%",
+            maxWidth: "lg",
+          }}
         >
           <Button
             startIcon={<ArrowBackIcon />}
@@ -374,6 +382,9 @@ const TicketPage = () => {
                     onChange={(e) =>
                       setTicket({ ...ticket, assignedUserId: e.target.value })
                     }
+                    SelectProps={{
+                      displayEmpty: true,
+                    }}
                     sx={{
                       mt: 1,
                       "& .MuiOutlinedInput-root": {
@@ -430,7 +441,7 @@ const TicketPage = () => {
                   }
                 >
                   <TextField
-                    type="number"
+                    type="text"
                     fullWidth
                     size="small"
                     InputProps={{ inputProps: { min: 0 } }}
