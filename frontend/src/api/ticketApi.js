@@ -84,3 +84,9 @@ export const deleteTicket = async (id) => {
       throw err.response?.data || { message: "Error loading board tickets." };
     }
 };
+
+export const searchTickets = async (query) => {
+
+  const response = await axiosInstance.get(`${TICKETS_URL}/search?query=${query}`);
+  return response.data;
+};
