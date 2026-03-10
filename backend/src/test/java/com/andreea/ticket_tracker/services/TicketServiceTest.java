@@ -225,4 +225,40 @@ public class TicketServiceTest {
 
         verify(ticketRepository, never()).save(any(Ticket.class));
     }
+
+    @Test
+    void testSearchTickets_AsAdmin() {
+        mockSecurityContext("admin", true);
+        Ticket ticket = new Ticket();
+        ticket.setTitle("Bug: Login failing");
+
+        when(ticketRepository.findByTitleContainingIgnoreCase("Bug"))
+                .thenReturn(List.of(ticket));
+
+        var result = ticketService.searchTickets("Bug");
+
+        assertEquals(1, result.size());
+        assertEquals("Bug: Login failing", result.get(0).getTitle());
+
+        verify(ticketRepository).findByTitleContainingIgnoreCase("Bug");
+        verify(ticketRepository, never()).searchByTitleAndUser(anyString(), anyString());
+    }
+
+    @Test
+    void testSearchTickets_AsUser() {
+        mockSecurityContext("user1", false);
+        Ticket ticket = new Ticket();
+        ticket.setTitle("Fix UI header");
+
+        when(ticketRepository.searchByTitleAndUser("UI", "user1"))
+                .thenReturn(List.of(ticket));
+
+        var result = ticketService.searchTickets("UI");
+
+        assertEquals(1, result.size());
+        assertEquals("Fix UI header", result.get(0).getTitle());
+
+        verify(ticketRepository).searchByTitleAndUser("UI", "user1");
+        verify(ticketRepository, never()).findByTitleContainingIgnoreCase(anyString());
+    }
 }

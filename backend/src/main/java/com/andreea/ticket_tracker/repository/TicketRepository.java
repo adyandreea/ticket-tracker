@@ -22,4 +22,14 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
             "JOIN p.users u " +
             "WHERE b.id = :boardId AND u.username = :username")
     List<Ticket> findAllByBoardAndUser(Long boardId, String username);
+
+    List<Ticket> findByTitleContainingIgnoreCase(String title);
+    @Query("SELECT DISTINCT t FROM Ticket t " +
+            "JOIN t.board b " +
+            "JOIN b.project p " +
+            "JOIN p.users u " +
+            "WHERE LOWER(t.title) LIKE LOWER(CONCAT('%', :query, '%')) " +
+            "AND u.username = :username")
+    List<Ticket> searchByTitleAndUser(String query, String username);
+
 }

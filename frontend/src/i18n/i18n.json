@@ -11,7 +11,7 @@
         "enter_password_login": {"ENG": "Enter password", "RO": "Introduceți parola", "FR": "Entrez le mot de passe", "RU": "Введите пароль" },
         "invalid_credentials_login": { "ENG": "Invalid username or password", "RO": "Nume de utilizator sau parolă invalidă", "FR": "Nom d'utilisateur ou mot de passe invalide", "RU": "Неверное имя пользователя или пароль" },
         "server_error_login": { "ENG": "Something went wrong. Please try again later.", "RO": "Ceva a mers prost. Vă rugăm să încercați din nou mai târziu.", "FR": "Quelque chose s'est mal passé. Veuillez réessayer plus tard.", "RU": "Что-то пошло не так. Пожалуйста, попробуйте позже." },
-        "search_navbar": {"ENG": "Search tasks, projects", "RO": "Căutați tichete, proiecte", "FR": "Rechercher des tâches, des projets", "RU": "Искать задачи, проекты" },
+        "search_navbar": {"ENG": "Search tasks", "RO": "Căutați tichete", "FR": "Rechercher des tâches", "RU": "Искать задачи" },
         "kanban_title_sidebar": { "ENG": "Kanban", "RO": "Kanban", "FR": "Kanban", "RU": "Канбан" },
         "project_management_sidebar": {"ENG": "Project Management", "RO": "Managementul proiectelor", "FR": "Gestion de projet", "RU": "Управление проектами" },
         "dashboard_sidebar": {"ENG": "Dashboard", "RO": "Panou de control", "FR": "Tableau de bord", "RU": "Панель управления" },
@@ -146,6 +146,8 @@
         "ticket_title_length_invalid": { "ENG": "Ticket title cannot exceed 50 characters", "RO": "Titlul tichetului nu poate depăși 50 de caractere", "FR": "Le titre du ticket ne peut pas dépasser 50 caractères", "RU": "Название тикета не может превышать 50 символов" },
         "unassigned_label": { "ENG": "Unassigned", "RO": "Neasignat", "FR": "Non assigné", "RU": "Не назначен" },
         "story_points_label": { "ENG": "Story Points", "RO": "Puncte de poveste", "FR": "Points d'histoire", "RU": "Очки истории" },
-        "edit_user": {"ENG": "Edit User", "RO": "Editează utilizator", "FR": "Modifier l'utilisateur", "RU": "Редактировать пользователя"}
+        "edit_user": {"ENG": "Edit User", "RO": "Editează utilizator", "FR": "Modifier l'utilisateur", "RU": "Редактировать пользователя"},
+        "recent_search_title": {"ENG": "Recent Searches", "RO": "Căutări recente", "FR": "Recherches récentes", "RU": "Недавние поиски"},
+        "no_tickets_found": {"ENG": "No tickets found", "RO": "Nu s-au găsit tichete", "FR": "Aucun ticket trouvé", "RU": "Тикеты не найдены"}
     }
 }

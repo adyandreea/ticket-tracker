@@ -131,7 +131,7 @@ const TicketPage = () => {
   const handleDelete = async () => {
     try {
       await deleteTicket(id);
-      navigate(-1);
+      navigate("/dashboard");
     } catch (err) {
       console.error(err);
       setShowConfirmationDialog(false);
@@ -228,7 +228,7 @@ const TicketPage = () => {
         >
           <Button
             startIcon={<ArrowBackIcon />}
-            onClick={() => navigate(-1)}
+            onClick={() => navigate("/dashboard")}
             sx={{
               px: 2,
               py: 1,

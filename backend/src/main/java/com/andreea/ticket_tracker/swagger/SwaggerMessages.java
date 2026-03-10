@@ -145,4 +145,9 @@ public class SwaggerMessages {
      * Message when profile picture was successfully deleted.
      */
     public static final String PROFILE_PICTURE_SUCCESSFULLY_DELETED = "Profile picture deleted successfully.";
+
+    /**
+     * Message when tickets are returned based on a search query.
+     */
+    public static final String SEARCH_TICKETS = "Returns tickets matching the search query.";
 }

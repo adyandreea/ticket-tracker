@@ -146,4 +146,22 @@ public class TicketController {
     public List<TicketResponseDTO> getTicketsByBoardId(@PathVariable Long boardId){
         return ticketService.getTicketsByBoardId(boardId);
     }
+
+    @Operation(summary = "Searches tickets by title.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = SwaggerHttpStatus.OK, description = SwaggerMessages.SEARCH_TICKETS,
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = TicketResponseDTO[].class))}),
+            @ApiResponse(responseCode = SwaggerHttpStatus.BAD_REQUEST, description = SwaggerMessages.BAD_REQUEST,
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ErrorDTO.class))}),
+            @ApiResponse(responseCode = SwaggerHttpStatus.INTERNAL_SERVER_ERROR, description = SwaggerMessages.INTERNAL_SERVER_ERROR,
+                    content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = ErrorDTO.class))})
+    }
+    )
+    @GetMapping("/search")
+    public List<TicketResponseDTO> searchTickets(@RequestParam String query) {
+        return ticketService.searchTickets(query);
+    }
 }

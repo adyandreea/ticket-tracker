@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import {
   AppBar,
   Toolbar,
@@ -5,14 +6,61 @@ import {
   IconButton,
   TextField,
   InputAdornment,
+  MenuItem,
+  Paper,
+  Typography,
 } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import { useLanguage } from "../../i18n/LanguageContext";
+import { useNavigate } from "react-router-dom";
+import { searchTickets } from "../../api/ticketApi";
+import HistoryIcon from "@mui/icons-material/History";
 
 const Navbar = ({ onMenuClick, onProfileClick }) => {
   const { translate } = useLanguage();
+  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [results, setResults] = useState([]);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [recentTickets, setRecentTickets] = useState([]);
+
+  useEffect(() => {
+    const savedRecents =
+      JSON.parse(localStorage.getItem("recentTickets")) || [];
+    setRecentTickets(savedRecents);
+  }, []);
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(async () => {
+      if (searchTerm.length > 0) {
+        const data = await searchTickets(searchTerm);
+        setResults(data);
+        setShowDropdown(true);
+      } else if (searchTerm.length === 0) {
+        setResults([]);
+      } else {
+        setShowDropdown(false);
+      }
+    }, 300);
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchTerm]);
+
+  const handleSelectTicket = (ticket) => {
+    const updatedRecents = [
+      ticket,
+      ...recentTickets.filter((t) => t.id !== ticket.id),
+    ].slice(0, 5);
+
+    setRecentTickets(updatedRecents);
+    localStorage.setItem("recentTickets", JSON.stringify(updatedRecents));
+
+    setSearchTerm("");
+    setShowDropdown(false);
+    navigate(`/tickets/${ticket.id}`);
+  };
+
   return (
     <AppBar
       position="fixed"
@@ -48,11 +96,22 @@ const Navbar = ({ onMenuClick, onProfileClick }) => {
           <MenuIcon />
         </IconButton>
 
-        <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
+        <Box
+          sx={{
+            flexGrow: 1,
+            display: "flex",
+            justifyContent: "center",
+            position: "relative",
+          }}
+        >
           <TextField
             size="small"
+            value={searchTerm}
             placeholder={translate("search_navbar")}
             variant="outlined"
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onFocus={() => setShowDropdown(true)}
+            onBlur={() => setTimeout(() => setShowDropdown(false), 200)}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -91,6 +150,102 @@ const Navbar = ({ onMenuClick, onProfileClick }) => {
               },
             }}
           />
+
+          {showDropdown &&
+            (searchTerm.length > 0 || recentTickets.length > 0) && (
+              <Paper
+                sx={{
+                  position: "absolute",
+                  top: "100%",
+                  mt: 1,
+                  width: { xs: "100%", sm: "80%", md: 500 },
+                  maxHeight: 350,
+                  overflowY: "auto",
+                  zIndex: 1000,
+                  borderRadius: 2,
+                  boxShadow: 3,
+                  py: 1,
+                }}
+              >
+                {searchTerm.length > 0 ? (
+                  results.length > 0 ? (
+                    results.map((ticket) => (
+                      <MenuItem
+                        key={ticket.id}
+                        onClick={() => handleSelectTicket(ticket)}
+                        sx={{
+                          py: 1.5,
+                          borderBottom: "1px solid",
+                          borderColor: "divider",
+                        }}
+                      >
+                        <Box>
+                          <Typography
+                            variant="body1"
+                            sx={{ fontWeight: "bold" }}
+                          >
+                            {ticket.title}
+                          </Typography>
+                          <Typography variant="caption" color="text.secondary">
+                            #{ticket.id} • {ticket.status}
+                          </Typography>
+                        </Box>
+                      </MenuItem>
+                    ))
+                  ) : (
+                    <MenuItem disabled sx={{ justifyContent: "center", py: 2 }}>
+                      <Typography color="text.secondary">
+                        {translate("no_tickets_found")}
+                      </Typography>
+                    </MenuItem>
+                  )
+                ) : (
+                  recentTickets.length > 0 && (
+                    <>
+                      <Typography
+                        variant="caption"
+                        sx={{
+                          px: 2,
+                          py: 1,
+                          color: "text.secondary",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {translate("recent_search_title").toUpperCase()}
+                      </Typography>
+                      {recentTickets.map((ticket) => (
+                        <MenuItem
+                          key={`recent-${ticket.id}`}
+                          onClick={() => handleSelectTicket(ticket)}
+                          sx={{
+                            py: 1,
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 1.5,
+                          }}
+                        >
+                          <HistoryIcon fontSize="small" color="action" />
+                          <Box>
+                            <Typography
+                              variant="body2"
+                              sx={{ fontWeight: "medium" }}
+                            >
+                              {ticket.title}
+                            </Typography>
+                            <Typography
+                              variant="caption"
+                              color="text.secondary"
+                            >
+                              #{ticket.id}
+                            </Typography>
+                          </Box>
+                        </MenuItem>
+                      ))}
+                    </>
+                  )
+                )}
+              </Paper>
+            )}
         </Box>
 
         <Box sx={{ display: "flex", alignItems: "center" }}>

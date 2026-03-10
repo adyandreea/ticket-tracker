@@ -317,4 +317,48 @@ public class TicketControllerTest {
                 .andExpect(jsonPath("$[0].boardId").value(id))
                 .andExpect(jsonPath("$[1].boardId").value(id));
     }
+
+    @Test
+    @WithMockUser(username = "admin", authorities = {"ADMIN"})
+    void testSearchTickets() throws Exception {
+        Project project = new Project();
+        project.setName("Project");
+        project.setDescription("Project Desc");
+        project = projectRepository.save(project);
+
+        Board board = new Board();
+        board.setName("Board");
+        board.setDescription("Board Desc");
+        board.setProject(project);
+        board = boardRepository.save(board);
+
+        Ticket ticket1 = new Ticket();
+        ticket1.setTitle("Fix the login bug");
+        ticket1.setDescription("Desc 1");
+        ticket1.setPosition(1);
+        ticket1.setStatus(TODO);
+        ticket1.setBoard(board);
+        ticketRepository.save(ticket1);
+
+        Ticket ticket2 = new Ticket();
+        ticket2.setTitle("Update user profile");
+        ticket2.setDescription("Desc 2");
+        ticket2.setPosition(2);
+        ticket2.setStatus(DONE);
+        ticket2.setBoard(board);
+        ticketRepository.save(ticket2);
+
+        mockMvc.perform(get("/api/v1/tickets/search")
+                        .param("query", "logIN")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", org.hamcrest.Matchers.hasSize(1)))
+                .andExpect(jsonPath("$[0].title").value("Fix the login bug"));
+
+        mockMvc.perform(get("/api/v1/tickets/search")
+                        .param("query", "xyz123")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", org.hamcrest.Matchers.empty()));
+    }
 }
