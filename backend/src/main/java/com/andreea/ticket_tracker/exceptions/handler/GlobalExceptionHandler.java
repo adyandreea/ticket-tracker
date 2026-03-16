@@ -15,9 +15,15 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Global interceptor for handling exceptions and converting them into JSON responses.
+ */
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+    /**
+     * Handles cases where a project is missing.
+     */
     @ExceptionHandler(ProjectNotFoundException.class)
     public ResponseEntity<ErrorDTO> handleProjectNotFound(ProjectNotFoundException ex) {
         ErrorDTO error = new ErrorDTO();
@@ -29,6 +35,9 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * Handles cases where a board is missing.
+     */
     @ExceptionHandler(BoardNotFoundException.class)
     public ResponseEntity<ErrorDTO> handleBoardNotFound(BoardNotFoundException ex){
         ErrorDTO error = new ErrorDTO();
@@ -40,6 +49,9 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * Handles cases where a ticket is missing.
+     */
     @ExceptionHandler(TicketNotFoundException.class)
     public ResponseEntity<ErrorDTO> handleTicketNotFound(TicketNotFoundException ex){
         ErrorDTO error = new ErrorDTO();
@@ -51,6 +63,9 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * Catches validation errors from @Valid and maps them to custom field error format.
+     */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     ResponseEntity<FieldErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
         FieldErrorResponse fieldErrorResponse = new FieldErrorResponse();
@@ -67,6 +82,9 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(fieldErrorResponse, HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Handles failed login attempts.
+     */
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ErrorDTO> handleBadCredentials(BadCredentialsException ex) {
@@ -79,6 +97,9 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
     }
 
+    /**
+     * Handles cases where a user account is not found.
+     */
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ErrorDTO> handleUserNotFound(UserNotFoundException ex){
         ErrorDTO error = new ErrorDTO();
@@ -90,6 +111,9 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * Handles logic errors when a user tries to access a project they aren't part of.
+     */
     @ExceptionHandler(UserNotInProjectException.class)
     public ResponseEntity<ErrorDTO> handleUserNotInProject(UserNotInProjectException ex){
         ErrorDTO error = new ErrorDTO();
