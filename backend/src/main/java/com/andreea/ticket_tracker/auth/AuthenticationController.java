@@ -20,6 +20,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST controller for user authentication and user management.
+ */
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
@@ -28,6 +31,11 @@ public class AuthenticationController {
 
     private final AuthenticationService service;
 
+    /**
+     * Endpoint to register a new user.
+     * @param request registration data
+     * @return authentication response with JWT
+     */
     @Operation(summary = "Creates a new user.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = SwaggerHttpStatus.OK, description = SwaggerMessages.USER_SUCCESSFULLY_CREATED,
@@ -48,6 +56,11 @@ public class AuthenticationController {
         return ResponseEntity.ok(service.register(request));
     }
 
+    /**
+     * Endpoint to authenticate a user.
+     * @param request login credentials
+     * @return authentication response with JWT
+     */
     @Operation(summary = "Authenticates a user.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = SwaggerHttpStatus.OK, description = SwaggerMessages.USER_SUCCESSFULLY_AUTHENTICATED,
@@ -68,6 +81,10 @@ public class AuthenticationController {
         return ResponseEntity.ok(service.authenticate(request));
     }
 
+    /**
+     * Endpoint to retrieve all users.
+     * @return list of user DTOs
+     */
     @Operation(summary = "Returns all users.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = SwaggerHttpStatus.OK, description = SwaggerMessages.RETURN_USERS,
@@ -82,6 +99,11 @@ public class AuthenticationController {
         return ResponseEntity.ok(service.getAllUsers());
     }
 
+    /**
+     * Endpoint to delete a user by ID.
+     * @param id user ID
+     * @return empty response
+     */
     @Operation(summary = "Deletes a user by ID.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = SwaggerHttpStatus.NO_CONTENT, description = SwaggerMessages.USER_SUCCESSFULLY_DELETED),
@@ -98,6 +120,12 @@ public class AuthenticationController {
         return ResponseEntity.noContent().build();
     }
 
+    /**
+     * Endpoint to update user details.
+     * @param id user ID
+     * @param request updated data
+     * @return updated user DTO
+     */
     @Operation(summary = "Updates an existing user.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = SwaggerHttpStatus.OK, description = SwaggerMessages.USER_SUCCESSFULLY_UPDATED,
@@ -118,6 +146,10 @@ public class AuthenticationController {
         return ResponseEntity.ok(service.updateUser(id, request));
     }
 
+    /**
+     * Endpoint to get the current authenticated user's profile.
+     * @return current user DTO
+     */
     @Operation(summary = "Returns the profile of the currently authenticated user.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = SwaggerHttpStatus.OK, description = SwaggerMessages.RETURN_USER,
@@ -133,6 +165,11 @@ public class AuthenticationController {
         return ResponseEntity.ok(service.getUserByUsername(currentUsername));
     }
 
+    /**
+     * Endpoint to update the current user's profile picture.
+     * @param base64Image image in base64 format
+     * @return empty response
+     */
     @Operation(summary = "Updates the profile picture of the currently authenticated user.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = SwaggerHttpStatus.OK, description = SwaggerMessages.PROFILE_PICTURE_SUCCESSFULLY_UPDATED,
@@ -152,6 +189,10 @@ public class AuthenticationController {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Endpoint to remove the current user's profile picture.
+     * @return empty response
+     */
     @Operation(summary = "Deletes the profile picture of the currently authenticated user.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = SwaggerHttpStatus.OK, description = SwaggerMessages.PROFILE_PICTURE_SUCCESSFULLY_DELETED,

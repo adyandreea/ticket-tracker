@@ -17,6 +17,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/**
+ * Security configuration for the application.
+ */
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -44,6 +47,12 @@ public class SecurityConfiguration {
     private static final String TICKETS_ALL_ENDPOINTS = "/api/v1/tickets/**";
     private static final String USERS_MANAGEMENT_ENDPOINT = "/api/v1/auth/users/**";
 
+    /**
+     * Configures HTTP security access control for endpoints.
+     * @param http the security object to configure
+     * @return the built security filter chain
+     * @throws Exception if configuration fails
+     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -85,17 +94,29 @@ public class SecurityConfiguration {
         return http.build();
     }
 
-
+    /**
+     * Provides the standard authentication manager bean.
+     * @param authenticationConfiguration the configuration object
+     * @return the authentication manager
+     */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
+    /**
+     * Defines the password hashing algorithm.
+     * @return the password encoder instance
+     */
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * Initializes the custom JWT authentication filter.
+     * @return a new instance of JwtAuthFilter
+     */
     @Bean
     public JwtAuthFilter jwtAuthenticationFilter() {
         return new JwtAuthFilter(tokenGenerator, customUserDetailsService);

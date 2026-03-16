@@ -17,6 +17,9 @@ import java.util.Date;
 
 import static io.jsonwebtoken.SignatureAlgorithm.HS512;
 
+/**
+ * Utility class for generating, parsing, and validating JSON Web Tokens.
+ */
 @Component
 @Slf4j
 public class JwtProvider {
@@ -24,10 +27,20 @@ public class JwtProvider {
     @Value("${jwt.secret}")
     private String secretKey;
 
+    /**
+     * Generates a token for a newly registered user.
+     * @param user the user entity
+     * @return a signed JWT string
+     */
     public String generateToken(User user) {
         return createToken(user.getUsername(), user.getRole().name());
     }
 
+    /**
+     * Generates a token based on an active Authentication object.
+     * @param authentication the authentication object from SecurityContext
+     * @return a signed JWT string
+     */
     public String generateToken(Authentication authentication) {
         String username = authentication.getName();
         String role = authentication.getAuthorities().stream()
@@ -38,6 +51,12 @@ public class JwtProvider {
         return createToken(username, role);
     }
 
+    /**
+     * Builds a signed JWT token with a 48-hour expiration.
+     * @param username user identification
+     * @param role user permissions
+     * @return the generated JWT
+     */
     private String createToken(String username, String role) {
         Date currentDate = new Date();
         long JWT_EXPIRATION_TIME = 3600000 * 24 * 2;
@@ -52,6 +71,11 @@ public class JwtProvider {
                 .compact();
     }
 
+    /**
+     * Extracts the username from a given JWT.
+     * @param token the JWT string
+     * @return the username contained in the token
+     */
     public String getUsernameFromJWT(final String token) {
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(getSigningKey())
@@ -62,6 +86,11 @@ public class JwtProvider {
         return claims.getSubject();
     }
 
+    /**
+     * Validates if the token is properly signed and not expired.
+     * @param token the JWT string
+     * @return true if valid
+     */
     public boolean validateToken(final String token) {
         try {
             Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token);
@@ -72,6 +101,10 @@ public class JwtProvider {
         }
     }
 
+    /**
+     * Decodes the secret key and prepares it for HMAC-512 signing.
+     * @return the signing key
+     */
     private Key getSigningKey() {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);

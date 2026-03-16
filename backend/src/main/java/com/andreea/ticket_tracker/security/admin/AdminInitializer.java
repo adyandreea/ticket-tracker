@@ -9,6 +9,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static com.andreea.ticket_tracker.entity.Role.ADMIN;
 
+/**
+ * Component that initializes a default admin user on application startup.
+ */
 @Slf4j
 @Component
 public class AdminInitializer implements CommandLineRunner {
@@ -24,6 +27,10 @@ public class AdminInitializer implements CommandLineRunner {
         this.adminProperties = adminProperties;
     }
 
+    /**
+     * Creates an admin user if one does not already exist in the database.
+     * @param args args command line arguments
+     */
     @Override
     public void run(String... args) {
 

@@ -15,6 +15,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Service class for user authentication and profile management.
+ */
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -26,6 +29,11 @@ public class AuthenticationService {
     private final UserRepository userRepository;
 
 
+    /**
+     * Registers a new user and generates a JWT token.
+     * @param request registration details
+     * @return authentication response with token
+     */
     public AuthenticationResponse register(RegisterRequest request) {
         var user = User.builder()
                 .firstname(request.getFirstname())
@@ -45,7 +53,11 @@ public class AuthenticationService {
                 .build();
     }
 
-
+    /**
+     * Authenticates a user and returns a JWT token.
+     * @param request login credentials
+     * @return authentication response with token
+     */
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         var auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -59,6 +71,10 @@ public class AuthenticationService {
                 .build();
     }
 
+    /**
+     * Retrieves all registered users.
+     * @return list of user DTOs
+     */
     public List<UserResponseDTO> getAllUsers() {
         return userRepository.findAll()
                 .stream()
@@ -66,12 +82,22 @@ public class AuthenticationService {
                 .toList();
     }
 
+    /**
+     * Deletes a user by ID.
+     * @param id user ID
+     */
     public void deleteUser(Long id) {
         userRepository.findById(id).orElseThrow(UserNotFoundException::new);
 
         userRepository.deleteById(id);
     }
 
+    /**
+     * Updates user profile details.
+     * @param id user ID
+     * @param request updated data
+     * @return updated user DTO
+     */
     public UserResponseDTO updateUser(Long id, UserRequestDTO request) {
         var user = userRepository.findById(id)
                 .orElseThrow(UserNotFoundException::new);
@@ -87,12 +113,22 @@ public class AuthenticationService {
         return userDTOMapper.toDTO(updatedUser);
     }
 
+    /**
+     * Finds a user by their username.
+     * @param username the username to search for
+     * @return user details
+     */
     public UserResponseDTO getUserByUsername(String username) {
         return userRepository.findByUsername(username)
                 .map(userDTOMapper::toDTO)
                 .orElseThrow(UserNotFoundException::new);
     }
 
+    /**
+     * Updates the profile picture for a user.
+     * @param username the user's username
+     * @param base64Image the image data in Base64 format
+     */
     public void updateProfilePicture(String username, String base64Image) {
         var user = userRepository.findByUsername(username)
                 .orElseThrow(UserNotFoundException::new);
@@ -100,6 +136,10 @@ public class AuthenticationService {
         userRepository.save(user);
     }
 
+    /**
+     * Removes the profile picture for a user.
+     * @param username the user's username
+     */
     public void deleteProfilePicture(String username) {
         var user = userRepository.findByUsername(username)
                 .orElseThrow(UserNotFoundException::new);
