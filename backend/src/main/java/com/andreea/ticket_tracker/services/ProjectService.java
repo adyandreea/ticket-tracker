@@ -19,6 +19,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Service class that handles all business logic for Projects.
+ */
 @Service
 @Slf4j
 public class ProjectService {
@@ -39,12 +42,22 @@ public class ProjectService {
         this.emailService = emailService;
     }
 
+    /**
+     * Creates a new project and saves it to the database.
+     * @param dto the project data from the request
+     * @return the created project as a response DTO
+     */
     public ProjectResponseDTO createProject(ProjectRequestDTO dto){
         Project project = ProjectDTOMapper.toEntity(dto);
         Project savedProject = projectRepository.save(project);
         return ProjectDTOMapper.toDTO(savedProject);
     }
 
+    /**
+     * Retrieves all projects visible to the current user.
+     * Admins see everything, while regular users see only projects they belong to.
+     * @return a list of projects accessible to the user
+     */
     public List<ProjectResponseDTO> getAllProjects(){
         String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
 
@@ -57,6 +70,11 @@ public class ProjectService {
                 .toList();
     }
 
+    /**
+     * Finds a specific project by ID, verifying if the user has permission to see it.
+     * @param id the ID of the project
+     * @return the project details as a DTO
+     */
     public ProjectResponseDTO getProject(Long id){
         Project project = projectRepository.findById(id)
                 .orElseThrow(ProjectNotFoundException::new);
@@ -66,6 +84,12 @@ public class ProjectService {
         return ProjectDTOMapper.toDTO(project);
     }
 
+    /**
+     * Updates project details.
+     * @param id the ID of the project to update
+     * @param dto the new project data
+     * @return the updated project details
+     */
     public ProjectResponseDTO updateProject(Long id, ProjectRequestDTO dto){
         Project project = projectRepository.findById(id)
                 .orElseThrow(ProjectNotFoundException::new);
@@ -78,6 +102,10 @@ public class ProjectService {
         return ProjectDTOMapper.toDTO(savedProject);
     }
 
+    /**
+     * Deletes a project from the database.
+     * @param id the ID of the project to remove
+     */
     public void deleteProject(Long id){
         Project project = projectRepository.findById(id)
                 .orElseThrow(ProjectNotFoundException::new);
@@ -86,6 +114,11 @@ public class ProjectService {
         projectRepository.deleteById(id);
     }
 
+    /**
+     * Adds a user to a project and sends them a notification email.
+     * @param projectId the target project ID
+     * @param userId the ID of the user to be added
+     */
     public void assignUserToProject(Long projectId, Long userId){
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(ProjectNotFoundException::new);
@@ -110,6 +143,11 @@ public class ProjectService {
         }
     }
 
+    /**
+     * Lists all users who are members of a specific project.
+     * @param projectId the ID of the project
+     * @return a list of user belonging to the project
+     */
     public List<UserResponseDTO> getProjectMembers(Long projectId){
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(ProjectNotFoundException::new);
@@ -122,6 +160,11 @@ public class ProjectService {
                 .toList();
     }
 
+    /**
+     * Removes a user's access from a project.
+     * @param projectId the ID of the project
+     * @param userId the ID of the user to be removed
+     */
     public void removeUserFromProject(Long projectId, Long userId) {
         Project project = projectRepository.findById(projectId)
                 .orElseThrow(ProjectNotFoundException::new);

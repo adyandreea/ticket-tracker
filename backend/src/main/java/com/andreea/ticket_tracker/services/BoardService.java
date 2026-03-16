@@ -16,6 +16,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Service class that handles all business logic for Boards.
+ */
 @Service
 public class BoardService {
 
@@ -30,6 +33,11 @@ public class BoardService {
         this.projectSecurity = projectSecurity;
     }
 
+    /**
+     * Creates a new board and saves it to the database.
+     * @param dto the board data from the request
+     * @return the created board as a response DTO
+     */
     public BoardResponseDTO createBoard(BoardRequestDTO dto){
       Project project = projectRepository.findById(dto.getProjectId())
               .orElseThrow(ProjectNotFoundException::new);
@@ -41,6 +49,10 @@ public class BoardService {
       return BoardDTOMapper.toDTO(savedBoard);
     }
 
+    /**
+     * Retrieves all boards visible to the current user.
+     * @return a list of boards
+     */
     public List<BoardResponseDTO> getAllBoards() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
@@ -51,6 +63,11 @@ public class BoardService {
         return boards.stream().map(BoardDTOMapper::toDTO).toList();
     }
 
+    /**
+     * Finds a specific board by ID, verifying if the user has permission to see it.
+     * @param id the ID of the board
+     * @return the board details as a DTO
+     */
     public BoardResponseDTO getBoard(Long id){
         Board board = boardRepository.findById(id)
                 .orElseThrow(BoardNotFoundException::new);
@@ -60,6 +77,12 @@ public class BoardService {
         return BoardDTOMapper.toDTO(board);
     }
 
+    /**
+     * Updates board details.
+     * @param id the ID of the board to update
+     * @param dto the new board data
+     * @return the updated board details
+     */
     public BoardResponseDTO updateBoard(Long id, BoardRequestDTO dto){
         Board board = boardRepository.findById(id)
                 .orElseThrow(BoardNotFoundException::new);
@@ -79,6 +102,10 @@ public class BoardService {
         return BoardDTOMapper.toDTO(savedBoard);
     }
 
+    /**
+     * Deletes a board from the database.
+     * @param id the ID of the board to remove
+     */
     public void deleteBoard(Long id){
         Board board = boardRepository.findById(id)
                 .orElseThrow(BoardNotFoundException::new);
@@ -87,6 +114,11 @@ public class BoardService {
         boardRepository.deleteById(id);
     }
 
+    /**
+     * Lists all boards who are in current project.
+     * @param projectId the ID of the project
+     * @return a list of boards associated with the project
+     */
     public List<BoardResponseDTO> getBoardsByProjectId(Long projectId) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
 

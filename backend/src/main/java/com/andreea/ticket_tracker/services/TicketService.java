@@ -22,6 +22,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Service class that handles all business logic for Tickets.
+ */
 @Service
 @Slf4j
 public class TicketService {
@@ -41,6 +44,11 @@ public class TicketService {
         this.emailService = emailService;
     }
 
+    /**
+     * Creates a new ticket and saves it to the database.
+     * @param dto the ticket data from the request
+     * @return the created ticket as a response DTO
+     */
     public TicketResponseDTO createTicket(TicketRequestDTO dto){
         Board board = boardRepository.findById(dto.getBoardId())
                 .orElseThrow(BoardNotFoundException::new);
@@ -52,6 +60,10 @@ public class TicketService {
         return TicketDTOMapper.toDTO(savedTicket);
     }
 
+    /**
+     * Retrieves all tickets.
+     * @return a list of tickets accessible to the user
+     */
     public List<TicketResponseDTO> getAllTickets(){
         String username = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getName();
 
@@ -62,6 +74,11 @@ public class TicketService {
         return tickets.stream().map(TicketDTOMapper::toDTO).toList();
     }
 
+    /**
+     * Finds a specific ticket by ID
+     * @param id the ID of the ticket
+     * @return the ticket details as a DTO
+     */
     public TicketResponseDTO getTicket(Long id){
         Ticket ticket = ticketRepository.findById(id)
                 .orElseThrow(TicketNotFoundException::new);
@@ -70,6 +87,12 @@ public class TicketService {
         return TicketDTOMapper.toDTO(ticket);
     }
 
+    /**
+     * Updates ticket details.
+     * @param id the ID of the ticket to update
+     * @param dto the new ticket data
+     * @return the updated ticket details
+     */
     public TicketResponseDTO updateTicket(Long id, TicketRequestDTO dto){
         Ticket ticket = ticketRepository.findById(id)
                 .orElseThrow(TicketNotFoundException::new);
@@ -102,6 +125,10 @@ public class TicketService {
         return TicketDTOMapper.toDTO(savedTicket);
     }
 
+    /**
+     * Deletes a ticket from the database.
+     * @param id the ID of the ticket to remove
+     */
     public void deleteTicket(Long id){
         Ticket ticket = ticketRepository.findById(id)
                 .orElseThrow(TicketNotFoundException::new);
@@ -110,6 +137,11 @@ public class TicketService {
         ticketRepository.deleteById(id);
     }
 
+    /**
+     * Lists all tickets belonging to a specific board.
+     * @param boardId the ID of the board
+     * @return a list of boards associated with the board
+     */
     public List<TicketResponseDTO> getTicketsByBoardId(Long boardId){
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         boardRepository.findById(boardId)
@@ -125,6 +157,13 @@ public class TicketService {
         return tickets.stream().map(TicketDTOMapper::toDTO).toList();
     }
 
+    /**
+     * Validates and assigns a user to a ticket, ensuring they belong to the project.
+     * Sends an email notification if a new user is assigned.
+     * @param ticket the ticket to update
+     * @param assignedUserId the ID of the user to assign
+     * @param project the project context for validation
+     */
     private void assignUserToTicketIfValid(Ticket ticket, Long assignedUserId, Project project) {
         if (assignedUserId != null) {
 
@@ -161,6 +200,11 @@ public class TicketService {
         }
     }
 
+    /**
+     * Searches for tickets by title across all accessible projects.
+     * @param query the search keyword
+     * @return a list of matching tickets the user is allowed to see
+     */
     public List<TicketResponseDTO> searchTickets(String query) {
         String username = SecurityContextHolder
                 .getContext().getAuthentication().getName();

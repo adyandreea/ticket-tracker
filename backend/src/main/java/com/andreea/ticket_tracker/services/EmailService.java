@@ -6,6 +6,9 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service class that handles email notifications.
+ */
 @Service
 public class EmailService {
     @Autowired
@@ -14,6 +17,12 @@ public class EmailService {
     @Value("${spring.mail.username}")
     private String senderEmail;
 
+    /**
+     * Sends a email notification.
+     * @param toEmail recipient address
+     * @param subject email subject
+     * @param body email content
+     */
     public void sendSimpleEmail(String toEmail, String subject, String body) {
         SimpleMailMessage message = new SimpleMailMessage();
 
