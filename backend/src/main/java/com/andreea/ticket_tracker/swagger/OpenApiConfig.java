@@ -7,9 +7,16 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Configuration for OpenAPI and Swagger documentation.
+ */
 @Configuration
 public class OpenApiConfig {
 
+    /**
+     * Configures global OpenAPI settings and JWT authentication for Swagger UI.
+     * @return the customized OpenAPI configuration
+     */
     @Bean
     public OpenAPI customOpenAPI(){
         return new OpenAPI()

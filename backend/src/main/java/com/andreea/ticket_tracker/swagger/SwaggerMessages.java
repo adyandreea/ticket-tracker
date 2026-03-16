@@ -1,5 +1,8 @@
 package com.andreea.ticket_tracker.swagger;
 
+/**
+ * Messages for Swagger API responses.
+ */
 public class SwaggerMessages {
 
     SwaggerMessages(){

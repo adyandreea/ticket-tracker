@@ -1,5 +1,8 @@
 package com.andreea.ticket_tracker.swagger;
 
+/**
+ * Constants for common HTTP status codes used in Swagger documentation.
+ */
 public class SwaggerHttpStatus {
 
     private SwaggerHttpStatus() {
