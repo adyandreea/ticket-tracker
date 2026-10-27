@@ -108,6 +108,12 @@
 
 * **Profile Management:** Users can update their avatars and view personal information.
 
+* **Testing:** Unit and integration tests ensuring code quality and reliability.
+  
+* **Containerization:** Fully dockerized setup for consistent development and production environments.
+
+* **CI/CD Pipeline:** Automated build, test, and deployment workflows using GitHub Actions.
+
 
 
 ## 🛠️ Tech Stack
@@ -116,4 +122,8 @@
 
 * **Backend:** Java, Spring Boot, Maven, Spring Security (JWT/Session).
 
+* **Testing:** JUnit, Mockito.
+
 * **Database:** MySQL / Hibernate JPA.
+
+* **DevOps & Infrastructure:** Docker, GitHub Actions (CI/CD).
